@@ -22,20 +22,22 @@
   struct ASTNode * node;
 }
 
-// Terminals
 %token<token> TIdent TNumber
 
-// Non-terminals
-%token<node> Program
+%nterm<node> Start Program
 
 %start Start
 
 %%
 
-Start: TIdent TNumber {
-  program = ASTNode();
-  program.add_child($1);
-  program.add_child($2);
+Start: Program {
+  program = *$1
+};
+
+Program: TIdent TNumber {
+  $$ = new ASTNode();
+  $$->add_child($1);
+  $$->add_child($2);
 };
 
 %%
