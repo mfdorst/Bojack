@@ -7,7 +7,7 @@ std::string tree_view(ASTNode const& tree,
                       bool last)
 {
   std::string branch_symbol = last ? "└-" : "├-";
-  std::string token_str = tree.has_token() ? tree.token->val : "Node";
+  std::string token_str = tree.has_token() ? tree.token->value : "Node";
   std::string view = fmt::format("{}{} {}\n", current_prefix, branch_symbol, token_str);
   
   if (tree.children.size() == 0) {

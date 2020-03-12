@@ -20,12 +20,12 @@ enum TokenType {
 };
 
 struct Token {
-  std::string val;
+  std::string value;
   TokenType type;
 
   Token() {}
-  Token(Token& token) : val(token.val), type(token.type) {}
-  Token(std::string val, TokenType type) : val(val), type(type) {}
+  Token(Token& token) : value(token.value), type(token.type) {}
+  Token(std::string value, TokenType type) : value(value), type(type) {}
 };
 
 static std::string token_type_to_string(TokenType type) {
