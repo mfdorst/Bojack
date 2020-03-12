@@ -24,6 +24,10 @@ struct ASTNode {
   void add_child(Token * token) {
     children.push_back(std::make_shared<ASTNode>(token));
   }
+
+  void add_child(ASTNode * node) {
+    children.push_back(std::shared_ptr<ASTNode>(node));
+  }
 };
 
 extern int yyparse(void);

@@ -9,6 +9,13 @@
 enum TokenType {
   Ident,
   Number,
+  Assign,
+  Add,
+  Sub,
+  Mult,
+  Div,
+  LParen,
+  RParen,
   InvalidToken
 };
 
@@ -23,12 +30,16 @@ struct Token {
 
 static std::string token_type_to_string(TokenType type) {
   switch (type) {
-    case Ident:
-      return "Ident";
-    case Number:
-      return "Number";
-    case InvalidToken:
-      return "InvalidToken";
+    case Ident: return "Ident";
+    case Number: return "Number";
+    case Assign: return "Assign";
+    case Add: return "Add";
+    case Sub: return "Sub";
+    case Mult: return "Mult";
+    case Div: return "Div";
+    case LParen: return "LParen";
+    case RParen: return "RParen";
+    case InvalidToken: return "InvalidToken";
   }
   return "InvalidType";
 }

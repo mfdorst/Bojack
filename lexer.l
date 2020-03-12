@@ -19,7 +19,32 @@
   yylval.token = new Token(yytext, Ident);
   return TIdent;
 }
-. {
-  yyterminate();
+= {
+  yylval.token = new Token("=", Assign);
+  return TAssign;
+}
+\+ {
+  yylval.token = new Token("+", Add);
+  return TAdd;
+}
+\- {
+  yylval.token = new Token("-", Sub);
+  return TSub;
+}
+\* {
+  yylval.token = new Token("*", Mult);
+  return TMult;
+}
+\/ {
+  yylval.token = new Token("/", Div);
+  return TDiv;
+}
+\( {
+  yylval.token = new Token("(", LParen);
+  return TLParen;
+}
+\) {
+  yylval.token = new Token(")", RParen);
+  return TRParen;
 }
 %%

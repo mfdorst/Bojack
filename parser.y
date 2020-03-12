@@ -6,6 +6,7 @@
   #include <cstdlib>
   
   #define YYERROR_VERBOSE
+  #define YYDEBUG 1
 
   extern int yylex();
 
@@ -23,22 +24,79 @@
   struct ASTNode * node;
 }
 
-%token<token> TIdent TNumber
+%token<token> TIdent TNumber TAssign TAdd TSub TMult TDiv TLParen TRParen
 
-%nterm<node> Start Program
+%nterm<node> Start Assign Expr Term Factor
 
 %start Start
 
 %%
 
-Start: Program {
+Start: Assign
+{
   g_program = std::shared_ptr<ASTNode>($1)
 };
 
-Program: TIdent TNumber {
+Assign: TIdent TAssign Expr
+{
   $$ = new ASTNode();
   $$->add_child($1);
+  $$->add_child($3);
+};
+
+Expr:
+Expr TAdd Term
+{
+  $$ = new ASTNode();
+  $$->add_child($1);
+  $$->add_child($3);
+}
+| Expr TSub Term
+{
+  $$ = new ASTNode();
+  $$->add_child($1);
+  $$->add_child($3);
+}
+| Term
+{
+  $$ = new ASTNode();
+  $$->add_child($1);
+};
+
+Term:
+Term TMult Factor
+{
+  $$ = new ASTNode();
+  $$->add_child($1);
+  $$->add_child($3);
+}
+| Term TDiv Factor
+{
+  $$ = new ASTNode();
+  $$->add_child($1);
+  $$->add_child($3);
+}
+| Factor
+{
+  $$ = new ASTNode();
+  $$->add_child($1);
+};
+
+Factor:
+TLParen Expr TRParen
+{
+  $$ = new ASTNode();
   $$->add_child($2);
+}
+| TIdent
+{
+  $$ = new ASTNode();
+  $$->add_child($1);
+}
+| TNumber
+{
+  $$ = new ASTNode();
+  $$->add_child($1);
 };
 
 %%
