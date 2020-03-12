@@ -39,7 +39,7 @@ Start: Assign
 
 Assign: TIdent TAssign Expr
 {
-  $$ = new ASTNode();
+  $$ = new ASTNode("=", Assign);
   $$->add_child($1);
   $$->add_child($3);
 };
@@ -47,56 +47,51 @@ Assign: TIdent TAssign Expr
 Expr:
 Expr TAdd Term
 {
-  $$ = new ASTNode();
+  $$ = new ASTNode("+", Add);
   $$->add_child($1);
   $$->add_child($3);
 }
 | Expr TSub Term
 {
-  $$ = new ASTNode();
+  $$ = new ASTNode("-", Sub);
   $$->add_child($1);
   $$->add_child($3);
 }
 | Term
 {
-  $$ = new ASTNode();
-  $$->add_child($1);
+  $$ = $1;
 };
 
 Term:
 Term TMult Factor
 {
-  $$ = new ASTNode();
+  $$ = new ASTNode("*", Mult);
   $$->add_child($1);
   $$->add_child($3);
 }
 | Term TDiv Factor
 {
-  $$ = new ASTNode();
+  $$ = new ASTNode("/", Div);
   $$->add_child($1);
   $$->add_child($3);
 }
 | Factor
 {
-  $$ = new ASTNode();
-  $$->add_child($1);
+  $$ = $1;
 };
 
 Factor:
 TLParen Expr TRParen
 {
-  $$ = new ASTNode();
-  $$->add_child($2);
+  $$ = $2;
 }
 | TIdent
 {
-  $$ = new ASTNode();
-  $$->add_child($1);
+  $$ = new ASTNode($1);
 }
 | TNumber
 {
-  $$ = new ASTNode();
-  $$->add_child($1);
+  $$ = new ASTNode($1);
 };
 
 %%

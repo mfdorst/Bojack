@@ -20,6 +20,7 @@ struct ASTNode {
   ASTNode() {}
   ASTNode(Token * token) : token(std::shared_ptr<Token>(token)) {}
   ASTNode(Token token) : token(std::make_shared<Token>(token)) {}
+  ASTNode(std::string token_value, TokenType token_type) : token(std::make_shared<Token>(token_value, token_type)) {}
 
   void add_child(Token * token) {
     children.push_back(std::make_shared<ASTNode>(token));
