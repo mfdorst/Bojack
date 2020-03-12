@@ -14,9 +14,10 @@
     exit(1);
   }
 
-  ASTNode program;
+  std::shared_ptr<ASTNode> g_program;
 %}
 
+// We use raw pointer types because union values must be default-constructible
 %union {
   struct Token * token;
   struct ASTNode * node;
@@ -31,7 +32,7 @@
 %%
 
 Start: Program {
-  program = *$1
+  g_program = std::shared_ptr<ASTNode>($1)
 };
 
 Program: TIdent TNumber {

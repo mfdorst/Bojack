@@ -28,4 +28,4 @@ struct ASTNode {
 
 extern int yyparse(void);
 
-extern ASTNode program;
+extern std::shared_ptr<ASTNode> g_program;

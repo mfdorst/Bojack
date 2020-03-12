@@ -4,6 +4,7 @@
 
 extern int yyparse();
 extern FILE * yyin;
+extern std::shared_ptr<ASTNode> g_program;
 
 int main(int argc, const char** argv) {
   FILE * input = fopen("input.txt", "r");
@@ -15,7 +16,7 @@ int main(int argc, const char** argv) {
   yyparse();
   fclose(input);
 
-  for (auto child : program.children) {
+  for (auto child : g_program->children) {
     if (child->token) {
       printf("Token: { type: %s, value: %s }\n",
              token_type_to_string(child->token->type).c_str(),
