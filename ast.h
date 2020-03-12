@@ -28,6 +28,12 @@ struct ASTNode {
   void add_child(ASTNode * node) {
     children.push_back(std::shared_ptr<ASTNode>(node));
   }
+
+  bool has_token() const {
+    return token != nullptr;
+  }
+
+  std::string to_str();
 };
 
 extern int yyparse(void);

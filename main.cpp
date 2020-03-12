@@ -16,13 +16,7 @@ int main(int argc, const char** argv) {
   yyparse();
   fclose(input);
 
-  for (auto child : g_program->children) {
-    if (child->token) {
-      printf("Token: { type: %s, value: %s }\n",
-             token_type_to_string(child->token->type).c_str(),
-             child->token->val.c_str());
-    } else {
-      printf("No token.\n");
-    }
-  }
+  printf("%s\n", g_program->to_str().c_str());
+  
+  return 0;
 }
