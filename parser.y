@@ -16,6 +16,7 @@
   }
 
   std::shared_ptr<ASTNode> g_program;
+  bool g_newline_required = false;
 %}
 
 // We use raw pointer types because union values must be default-constructible
@@ -26,18 +27,35 @@
 
 %token<token> TIdent TNumber TAssign TAdd TSub TMult TDiv TLParen TRParen
 
-%nterm<node> Start Assign Expr Term Factor
+%nterm<node> Start StatementList Statement Assignment Expr Term Factor
 
 %start Start
 
 %%
 
-Start: Assign
+Start: StatementList
 {
-  g_program = std::shared_ptr<ASTNode>($1)
+  g_program = std::shared_ptr<ASTNode>($1);
+  g_program->token = std::make_shared<Token>("Block", Block);
 };
 
-Assign: TIdent TAssign Expr
+StatementList:
+Statement
+{
+  $$ = new ASTNode();
+  $$->add_child($1);
+}
+| StatementList Statement
+{
+  $1->add_child($2);
+};
+
+Statement: Assignment '\n'
+{
+  $$ = $1;
+};
+
+Assignment: TIdent TAssign Expr
 {
   $$ = new ASTNode("=", Assign);
   $$->add_child($1);

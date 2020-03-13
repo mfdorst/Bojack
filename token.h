@@ -16,6 +16,7 @@ enum TokenType {
   Div,
   LParen,
   RParen,
+  Block,
   InvalidToken
 };
 
@@ -39,7 +40,10 @@ static std::string token_type_to_string(TokenType type) {
     case Div: return "Div";
     case LParen: return "LParen";
     case RParen: return "RParen";
+    case Block: return "Block";
     case InvalidToken: return "InvalidToken";
   }
   return "InvalidType";
 }
+
+extern bool g_newline_required;

@@ -8,11 +8,6 @@
 #include <vector>
 #include "token.h"
 
-enum ASTNodeType {
-  ASTIdent,
-  ASTNumber
-};
-
 struct ASTNode {
   std::shared_ptr<Token> token;
   std::vector<std::shared_ptr<ASTNode>> children;
