@@ -28,6 +28,11 @@
   yylval.token = new Token(yytext, Number);
   return TNumber;
 }
+if {
+  debug(yytext);
+  yylval.token = new Token("if", If);
+  return TIf;
+}
 [a-zA-Z_][a-zA-Z0-9_]* {
   debug(yytext);
   yylval.token = new Token(yytext, Ident);

@@ -25,27 +25,27 @@
   struct ASTNode * node;
 }
 
-%token<token> TIdent TNumber TAssign TAdd TSub TMult TDiv TLParen TRParen
+%token<token> TIdent TNumber TAssign TAdd TSub TMult TDiv TLParen TRParen TIf
 
-%nterm<node> Start StatementList Statement Assignment Expr Term Factor
+%nterm<node> Start Block Statement Assignment Expr Term Factor
 
 %start Start
 
 %%
 
-Start: StatementList
+Start: Block
 {
   g_program = std::shared_ptr<ASTNode>($1);
   g_program->token = std::make_shared<Token>("Block", Block);
 };
 
-StatementList:
+Block:
 Statement
 {
   $$ = new ASTNode();
   $$->add_child($1);
 }
-| StatementList Statement
+| Block Statement
 {
   $1->add_child($2);
 };
@@ -53,6 +53,14 @@ Statement
 Statement: Assignment '\n'
 {
   $$ = $1;
+}
+| TIf Expr '{' Block '}'
+{
+  $$ = new ASTNode("If", If);
+  ASTNode * cond = new ASTNode("Condition", Condition);
+  cond->add_child($2);
+  $$->add_child(cond);
+  $$->add_child($4);
 };
 
 Assignment: TIdent TAssign Expr

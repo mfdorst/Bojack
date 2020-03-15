@@ -17,6 +17,8 @@ enum TokenType {
   LParen,
   RParen,
   Block,
+  If,
+  Condition,
   InvalidToken
 };
 
@@ -41,6 +43,8 @@ static std::string token_type_to_string(TokenType type) {
     case LParen: return "LParen";
     case RParen: return "RParen";
     case Block: return "Block";
+    case If: return "If";
+    case Condition: return "Condition";
     case InvalidToken: return "InvalidToken";
   }
   return "InvalidType";
