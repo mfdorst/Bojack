@@ -25,7 +25,7 @@
   struct ASTNode * node;
 }
 
-%token<token> TIdent TNumber TAssign TAdd TSub TMult TDiv TLParen TRParen TIf
+%token<token> TIdent TNumber TIf
 
 %nterm<node> Start Block Statement Assignment Expr Term Factor
 
@@ -63,7 +63,7 @@ Statement: Assignment '\n'
   $$->add_child($4);
 };
 
-Assignment: TIdent TAssign Expr
+Assignment: TIdent '=' Expr
 {
   $$ = new ASTNode("=", Assign);
   $$->add_child($1);
@@ -71,13 +71,13 @@ Assignment: TIdent TAssign Expr
 };
 
 Expr:
-Expr TAdd Term
+Expr '+' Term
 {
   $$ = new ASTNode("+", Add);
   $$->add_child($1);
   $$->add_child($3);
 }
-| Expr TSub Term
+| Expr '-' Term
 {
   $$ = new ASTNode("-", Sub);
   $$->add_child($1);
@@ -89,13 +89,13 @@ Expr TAdd Term
 };
 
 Term:
-Term TMult Factor
+Term '*' Factor
 {
   $$ = new ASTNode("*", Mult);
   $$->add_child($1);
   $$->add_child($3);
 }
-| Term TDiv Factor
+| Term '/' Factor
 {
   $$ = new ASTNode("/", Div);
   $$->add_child($1);
@@ -107,7 +107,7 @@ Term TMult Factor
 };
 
 Factor:
-TLParen Expr TRParen
+'(' Expr ')'
 {
   $$ = $2;
 }

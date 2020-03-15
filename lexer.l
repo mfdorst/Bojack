@@ -18,6 +18,19 @@
     void debug(const char *) {}
   #endif
 
+  TokenType operator_type(const char op) {
+    switch(op) {
+      case '=': return Assign;
+      case '+': return Add;
+      case '-': return Sub;
+      case '*': return Mult;
+      case '/': return Div;
+      case '(': return LParen;
+      case ')': return RParen;
+      default: return InvalidToken;
+    }
+  }
+
 %}
 %option noyywrap
 
@@ -38,40 +51,10 @@ if {
   yylval.token = new Token(yytext, Ident);
   return TIdent;
 }
-= {
+[=\+\-\*\/\(\)] {
   debug(yytext);
-  yylval.token = new Token("=", Assign);
-  return TAssign;
-}
-\+ {
-  debug(yytext);
-  yylval.token = new Token("+", Add);
-  return TAdd;
-}
-\- {
-  debug(yytext);
-  yylval.token = new Token("-", Sub);
-  return TSub;
-}
-\* {
-  debug(yytext);
-  yylval.token = new Token("*", Mult);
-  return TMult;
-}
-\/ {
-  debug(yytext);
-  yylval.token = new Token("/", Div);
-  return TDiv;
-}
-\( {
-  debug(yytext);
-  yylval.token = new Token("(", LParen);
-  return TLParen;
-}
-\) {
-  debug(yytext);
-  yylval.token = new Token(")", RParen);
-  return TRParen;
+  yylval.token = new Token(yytext, operator_type(yytext[0]));
+  return yytext[0];
 }
 \n {
   debug("\\n");
