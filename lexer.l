@@ -9,7 +9,7 @@
 
   extern bool g_newline_required;
 
-  //#define DEBUG
+  #define DEBUG
   #ifdef DEBUG
     void debug(const char * msg) {
       puts(msg);

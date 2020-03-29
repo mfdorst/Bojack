@@ -27,11 +27,17 @@
 
 %token<token> TIdent TNumber TIf
 
-%nterm<node> Start Block Statement Assignment Expr Term Factor
+%nterm<node> Start Block Statement Assignment Expr Term Factor OptNl ReqNl
 
 %start Start
 
 %%
+
+// Specifies an optional newline
+OptNl: /* empty */ {$$ = nullptr;}| '\n' {$$ = nullptr;};
+
+// Specifies a required newline
+ReqNl: '\n' {};
 
 Start: Block
 {
@@ -50,7 +56,7 @@ Statement
   $1->add_child($2);
 };
 
-Statement: Assignment '\n'
+Statement: Assignment ReqNl
 {
   $$ = $1;
 }
@@ -63,7 +69,7 @@ Statement: Assignment '\n'
   $$->add_child($4);
 };
 
-Assignment: TIdent '=' Expr
+Assignment: TIdent '=' OptNl Expr
 {
   $$ = new ASTNode("=", Assign);
   $$->add_child($1);
